@@ -33,10 +33,7 @@ output.tar.gz
 runtime/
 app/
 
-config.development.js
-adapter.development.js
 
-
-.gitignore
 src/common/config/database.js
 src/common/config/config.js
+
