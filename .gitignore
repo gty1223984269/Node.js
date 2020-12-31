@@ -35,6 +35,3 @@ app/
 
 config.development.js
 adapter.development.js
-package-lock.json
-src/common/config/config.js
-src/common/config/database.js
