@@ -11,6 +11,7 @@ function generateTreeMenu(arr, pid = 0) {
   return temp;
 }
 module.exports = class extends Base {
+
   /**
    * 获取sku信息，用于购物车编辑时选择规格
    * @returns {Promise.<Promise|PreventPromise|void>}
@@ -23,7 +24,17 @@ module.exports = class extends Base {
     });
   }
 
-  
+  /**
+   * 获取sku信息，用于购物车编辑时选择规格
+   * @returns {Promise.<Promise|PreventPromise|void>}
+   */
+  async schoolListAction() {
+    const schoolList = await this.model('bk_school').select();
+    return this.success({
+      schoolList: schoolList
+    });
+  }
+
 
 };
 
