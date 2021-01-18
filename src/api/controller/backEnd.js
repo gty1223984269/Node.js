@@ -39,7 +39,7 @@ module.exports = class extends Base {
    * 获取产品列表
    * @returns {Promise.<Promise|PreventPromise|void>}
    */
-  async schoolListAction() {
+  async productListAction() {
     const productList = await this.model('bk_product_list').where({is_delete:0}).select();
     return this.success({
       productList: productList
@@ -49,7 +49,7 @@ module.exports = class extends Base {
    * 添加或更新产品信息
    * @returns {Promise.<Promise|PreventPromise|void>}
    */
-  async saveAction() {
+  async productSaveAction() {
     let id = this.post('id');
     const productData = {
       title: this.post('title'),
@@ -70,7 +70,7 @@ module.exports = class extends Base {
    * 删除指定的产品
    * @returns {Promise.<Promise|PreventPromise|void>}
    */
-  async deleteAction() {
+  async productDeleteAction() {
     const id = this.post('id');
     await this.model('bk_product_list').where({id: id}).delete();
     return this.success('删除成功');
