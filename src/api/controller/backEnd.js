@@ -1,6 +1,6 @@
 const Base = require('./base.js');
 const fs = require('fs');
-
+const moment = require('moment');
 function generateTreeMenu(arr, pid = 0) {
   const temp = [];
   for (const item of arr) {
@@ -59,11 +59,11 @@ module.exports = class extends Base {
       title: this.post('title'),
       money: this.post('money'),
       img_path: this.post('img_path'),
-      is_default: this.post('is_default') === true ? 1 : 0
+      is_delete: 0,
+      upload_time:moment().format('yyyy-MM-DD HH:mm:ss')
     };
-
     if (think.isEmpty(id)) {
-      addressId = await this.model('bk_product_list').add(productData);
+       await this.model('bk_product_list').add(productData);
     } else {
       await this.model('bk_product_list').where({ id: id }).update(productData);
     }
@@ -85,16 +85,16 @@ module.exports = class extends Base {
   * @returns {Promise.<void>}
   */
   async uploadFileAction() {
-    const avatar = this.file('avatar');
-    if (think.isEmpty(avatar)) {
+    const file = this.file('file');
+    if (think.isEmpty(file)) {
       return this.fail('保存失败');
     }
     var path = think.ROOT_PATH + '/upload/';
-    var fileName = avatar.name;
+    var fileName = file.name;
     if (!fs.existsSync(path)) {
       fs.mkdirSync(path);
     }
-    fs.readFile(avatar.path, function (error, buffer) {
+    fs.readFile(file.path, function (error, buffer) {
       fs.writeFile(path + `/${fileName}`, buffer, function (err) {
         if (err) {
           console.log(err);
