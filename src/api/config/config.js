@@ -26,6 +26,7 @@ module.exports = {
     'cart/delete',
     'cart/goodscount',
     'pay/notify',
-    'backEnd/menuList'
+    'backEnd/menuList',
+    'backEnd/uploadFile'
   ]
 };

@@ -1,4 +1,5 @@
 const Base = require('./base.js');
+const fs = require('fs');
 
 function generateTreeMenu(arr, pid = 0) {
   const temp = [];
@@ -10,6 +11,9 @@ function generateTreeMenu(arr, pid = 0) {
   }
   return temp;
 }
+
+
+
 module.exports = class extends Base {
 
   /**
@@ -18,7 +22,7 @@ module.exports = class extends Base {
    */
   async menuListAction() {
     const arr = await this.model('bk_menu').select();
-    const menuList = generateTreeMenu(arr,0);
+    const menuList = generateTreeMenu(arr, 0);
     return this.success({
       menuList: menuList
     });
@@ -35,12 +39,12 @@ module.exports = class extends Base {
     });
   }
 
-   /**
-   * 获取产品列表
-   * @returns {Promise.<Promise|PreventPromise|void>}
-   */
+  /**
+  * 获取产品列表
+  * @returns {Promise.<Promise|PreventPromise|void>}
+  */
   async schoolListAction() {
-    const productList = await this.model('bk_product_list').where({is_delete:0}).select();
+    const productList = await this.model('bk_product_list').where({ is_delete: 0 }).select();
     return this.success({
       productList: productList
     });
@@ -61,7 +65,7 @@ module.exports = class extends Base {
     if (think.isEmpty(id)) {
       addressId = await this.model('bk_product_list').add(productData);
     } else {
-      await this.model('bk_product_list').where({id: id}).update(productData);
+      await this.model('bk_product_list').where({ id: id }).update(productData);
     }
     return this.success("操作成功");
   }
@@ -72,8 +76,31 @@ module.exports = class extends Base {
    */
   async deleteAction() {
     const id = this.post('id');
-    await this.model('bk_product_list').where({id: id}).delete();
+    await this.model('bk_product_list').where({ id: id }).delete();
     return this.success('删除成功');
+  }
+
+  /**
+  * 保存用户头像
+  * @returns {Promise.<void>}
+  */
+  async uploadFileAction() {
+    const avatar = this.file('avatar');
+    if (think.isEmpty(avatar)) {
+      return this.fail('保存失败');
+    }
+    var path = think.ROOT_PATH + '/upload/';
+    var fileName = avatar.name;
+    if (!fs.existsSync(path)) {
+      fs.mkdirSync(path);
+    }
+    fs.readFile(avatar.path, function (error, buffer) {
+      fs.writeFile(path + `/${fileName}`, buffer, function (err) {
+        if (err) {
+          console.log(err);
+        }
+      });
+    });
   }
 
 };
