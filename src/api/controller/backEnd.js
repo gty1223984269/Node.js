@@ -86,20 +86,25 @@ module.exports = class extends Base {
   */
   async uploadFileAction() {
     const file = this.file('file');
+    var os = require('os');
     if (think.isEmpty(file)) {
       return this.fail('保存失败');
     }
-    var path = think.ROOT_PATH + '/upload/';
-    var fileName = file.name;
+    var path = think.ROOT_PATH + '/www/static/upload/';
+    var fileName = moment().format('yyyyMMDDHHmmss')+file.name;
+    var absolutePath=path + `/${fileName}`;
     if (!fs.existsSync(path)) {
       fs.mkdirSync(path);
     }
     fs.readFile(file.path, function (error, buffer) {
-      fs.writeFile(path + `/${fileName}`, buffer, function (err) {
+      fs.writeFile(absolutePath, buffer, function (err) {
         if (err) {
           console.log(err);
         }
       });
+    });
+    return this.success({
+      filePath: `/static/upload/${fileName}`
     });
   }
 
