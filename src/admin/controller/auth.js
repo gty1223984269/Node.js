@@ -14,7 +14,7 @@ module.exports = class extends Base {
 
     console.log(think.md5(password + '' + admin.password_salt));
     if (think.md5(password + '' + admin.password_salt) !== admin.password) {
-      return this.fail(400, '用户名或密码不正确2');
+      return this.fail(400, '用户名或密码不正确');
     }
 
     // 更新登录信息
