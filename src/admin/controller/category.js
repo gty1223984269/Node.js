@@ -78,7 +78,17 @@ module.exports = class extends Base {
   }
 
   async categoryListAction() {
-    const arr = await this.model('category').select();
+    const arr=[];
+    const list = await this.model('category').field(['id', 'name', 'icon_url','parent_id' ]).select();
+    list.forEach(function(item,index)
+     {
+      arr.push({
+        id:item.id,
+        label:item.name,
+        icon_url:item.icon_url,
+        parent_id:item.parent_id
+      });
+     })
     const categoryList= generateTreeMenu(arr,0);
     return this.success({
       categoryList:categoryList
