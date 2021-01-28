@@ -1,6 +1,16 @@
 const Base = require('./base.js');
-
+function generateTreeMenu(arr, pid = 0) {
+  const temp = [];
+  for (const item of arr) {
+    if (item.parent_id === pid) {
+      item.children = generateTreeMenu(arr, item.id);
+      temp.push(item);
+    }
+  }
+  return temp;
+}
 module.exports = class extends Base {
+
   /**
    * index action
    * @return {Promise} []
@@ -65,5 +75,13 @@ module.exports = class extends Base {
     // TODO 删除图片
 
     return this.success();
+  }
+
+  async categoryListAction() {
+    const arr = await this.model('category').select();
+    const categoryList= generateTreeMenu(arr,0);
+    return this.success({
+      categoryList:categoryList
+    });
   }
 };
