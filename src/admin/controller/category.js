@@ -16,7 +16,7 @@ module.exports = class extends Base {
    * @return {Promise} []
    */
   async indexAction() {
-    const model = this.model('category');
+    const model = this.model('category'); 
     const data = await model.where({is_show: 1}).order(['sort_order ASC']).select();
     const topCategory = data.filter((item) => {
       return item.parent_id === 0;
@@ -94,4 +94,19 @@ module.exports = class extends Base {
       categoryList:categoryList
     });
   }
+  //添加分类
+  async categoryAddAction() {
+    const parent_id = this.post('parent_id');
+    const name = this.post('name');
+    await this.model('category').add({parent_id:parent_id,name:name});
+    return this.success("操作成功");
+  }
+  
+  //删除分类
+  async categoryDeleteAction() {
+    const id = this.post('id');
+    await this.model('category').where({id:id}).delete();
+    return this.success("操作成功");
+  }
+
 };
