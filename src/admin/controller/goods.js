@@ -6,13 +6,11 @@ module.exports = class extends Base {
    * @return {Promise} []
    */
   async indexAction() {
-    const page = this.get('page') || 1;
-    const size = this.get('size') || 10;
-    const name = this.get('name') || '';
-
+    const page = this.post('page');
+    const size = this.post('size') || 10;
+    const name = this.post('name') || '';
     const model = this.model('goods');
     const data = await model.where({name: ['like', `%${name}%`]}).order(['id DESC']).page(page, size).countSelect();
-
     return this.success(data);
   }
 
@@ -51,5 +49,20 @@ module.exports = class extends Base {
     // TODO 删除图片
 
     return this.success();
+  }
+
+  async goodsSaveAction() {
+    let id = this.post('id');
+    const productData = {
+      name: this.post('name'),
+      retail_price: this.post('retail_price'),
+      primary_pic_url: this.post('primary_pic_url'),
+    };
+    if (think.isEmpty(id)) {
+       await this.model('goods').add(productData);
+    } else {
+      await this.model('goods').where({ id: id }).update(productData);
+    }
+    return this.success("操作成功");
   }
 };

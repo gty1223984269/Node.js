@@ -98,7 +98,7 @@ module.exports = class extends Base {
   async categoryAddAction() {
     const parent_id = this.post('parent_id');
     const name = this.post('name');
-    await this.model('category').add({parent_id:parent_id,name:name});
+    await this.model('category').add({parent_id:parent_id,name:name,icon_url:'',img_url:'',wap_banner_url:'',level:'',front_name:''});
     return this.success("操作成功");
   }
   
