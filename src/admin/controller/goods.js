@@ -20,7 +20,7 @@ module.exports = class extends Base {
     const name = this.post('name') || '';
     const data = await this.model('goods').field(`nideshop_goods.id,nideshop_category.name as categoryName,
     nideshop_goods.name,nideshop_goods.brand_id,nideshop_goods.category_id,nideshop_goods.retail_price,
-    nideshop_goods.primary_pic_url,nideshop_brand.name as brandName`)
+    nideshop_goods.primary_pic_url,nideshop_brand.name as brandName,nideshop_category.parent_id`)
     .join('nideshop_category on  nideshop_goods.category_id = nideshop_category.id')
     .join('nideshop_brand on nideshop_goods.brand_id =nideshop_brand.id ')
     .order(['id DESC']).page(page,size).countSelect();
