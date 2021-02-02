@@ -57,6 +57,8 @@ module.exports = class extends Base {
       name: this.post('name'),
       retail_price: this.post('retail_price'),
       primary_pic_url: this.post('primary_pic_url'),
+      category_id:this.post('secondaryCategoryId'),
+      brand_id:this.post('brandId')
     };
     if (think.isEmpty(id)) {
        await this.model('goods').add(productData);
