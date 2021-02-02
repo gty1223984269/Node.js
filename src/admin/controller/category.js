@@ -42,6 +42,19 @@ module.exports = class extends Base {
     return this.success(data);
   }
 
+  async allCategoryAction() {
+    const model = this.model('category');
+    const data = await model.select();
+    return this.success(data);
+  }
+
+  async allBrandAction() {
+    const model = this.model('brand');
+    const data = await model.select();
+    return this.success(data);
+  }
+
+
   async infoAction() {
     const id = this.get('id');
     const model = this.model('category');
