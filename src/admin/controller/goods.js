@@ -14,6 +14,18 @@ module.exports = class extends Base {
     return this.success(data);
   }
 
+  async goodListAction() {
+    const page = this.post('page');
+    const size = this.post('size') || 10;
+    const name = this.post('name') || '';
+    const data = await this.model('goods').field(`nideshop_goods.id,nideshop_category.name as categoryName,
+    nideshop_goods.name,nideshop_goods.brand_id,nideshop_goods.category_id,nideshop_goods.retail_price,nideshop_goods.primary_pic_url,nideshop_brand.name as brandName`)
+    .join('nideshop_category on  nideshop_goods.category_id = nideshop_category.id')
+    .join('nideshop_brand on nideshop_goods.brand_id =nideshop_brand.id ')
+    .order(['id DESC']).page(page,size).countSelect();
+     console.log(data);
+    return this.success(data);
+  }
   async infoAction() {
     const id = this.get('id');
     const model = this.model('goods');
