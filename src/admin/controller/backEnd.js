@@ -32,9 +32,7 @@ module.exports = class extends Base {
   async menuAddAction()
   {
     let menuId = this.post('menuId');
-    let menuNameCn = this.post('menuNameCn');
-    let menuNameEn = this.post('menuNameEn');
-    let iconCls = this.post('iconCls');
+    let menuNameCn = this.post('name');
     let comp = this.post('comp');
     let url = this.post('url');
     let parentId = this.post('parentId');
@@ -42,13 +40,19 @@ module.exports = class extends Base {
     {
       menuId:menuId,
       menuNameCn:menuNameCn,
-      menuNameEn:menuNameEn,
-      iconCls:iconCls,
       comp:comp,
       url:url,
       parentId:parentId
     };
-    await this.model('bk_menu').add(menu);
+    if(menuId)
+    {
+      await this.model('bk_menu').update(menu);
+    }
+    else
+    {
+      await this.model('bk_menu').add(menu);
+
+    }
     return this.success('操作成功');
   }
 
