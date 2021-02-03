@@ -28,6 +28,37 @@ module.exports = class extends Base {
     });
   }
 
+ //增加菜单
+  async menuAddAction()
+  {
+    let menuId = this.post('menuId');
+    let menuNameCn = this.post('menuNameCn');
+    let menuNameEn = this.post('menuNameEn');
+    let iconCls = this.post('iconCls');
+    let comp = this.post('comp');
+    let url = this.post('url');
+    let parentId = this.post('parentId');
+    const menu=
+    {
+      menuId:menuId,
+      menuNameCn:menuNameCn,
+      menuNameEn:menuNameEn,
+      iconCls:iconCls,
+      comp:comp,
+      url:url,
+      parentId:parentId
+    };
+    await this.model('bk_menu').add(menu);
+    return this.success('操作成功');
+  }
+
+  async menuRemoveAction()
+  {
+    let id =this.post('id');
+    await this.model('bk_menu').where({id:id}).delete()
+    return this.success('操作成功')
+
+  }
   /**
    * 获取学校列表
    * @returns {Promise.<Promise|PreventPromise|void>}
